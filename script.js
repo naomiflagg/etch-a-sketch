@@ -1,12 +1,15 @@
 // DOM variables
 const squareDivContainer = document.querySelector("#grid-container");
-const buttonContainer = document.querySelector("#button-container");
-const clearButton = document.createElement("button");
+const clearButton = document.querySelector("#clear-button");
+const colorButton = document.querySelector("#color-button");
+let colorful = false;
 let squareDiv = [];
 
-// Add functionality to clear button and add to page
-buttonContainer.appendChild(clearButton);
+// Add event listener to clear button
 clearButton.addEventListener("click", userInput);
+
+// Add event listener to color button
+colorButton.addEventListener("click", hoverColor);
 
 // Function to get new grid size from user
 function userInput() {
@@ -25,31 +28,36 @@ function createChildDivs(gridSize) {
 // Create grid of square divs within div container using CSS Grid
 function newGrid(gridSize) {
   // Set parent style as grid
-  squareDivContainer.style.cssText = `display: grid; 
-      grid: repeat(${gridSize}, 1fr) / repeat(${gridSize}, 1fr); height: 450px; width: 450px`;
+  squareDivContainer.style.grid = `repeat(${gridSize}, 1fr) / repeat(${gridSize}, 1fr)`;
   // Assign column and row numbers to each of the squares
   for (let column = 1; column <= gridSize; column++) {
     for (let row = 1; row <= gridSize; row++) {
       // Stylize each of the squares
       let sqNmbr = row + gridSize * (column - 1);
       squareDiv[sqNmbr].style.cssText = `grid-column: ${column}; 
-        grid-row: ${row}; border: 1px solid black`;
-      console.log(squareDiv[sqNmbr]);
+        grid-row: ${row}; border: 1px solid black; background-color: white`;
       squareDiv[sqNmbr].setAttribute("class", "square-div");
       // Append the squares to the parent div container
       squareDivContainer.appendChild(squareDiv[sqNmbr]);
     }
-    gridBackground();
+    hoverColor();
   }
-
 }
 
 // Add hover effect to square divs
-function gridBackground() {
+function hoverColor() {
+  colorful = !colorful;
   const squareDivs = document.querySelectorAll(".square-div");
   squareDivs.forEach(function(square) {
     square.addEventListener("mouseover", function () {
-      square.style.backgroundColor = "blue";
+      if (colorful) {
+        square.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+        colorButton.textContent = "Greyscale";
+      }
+      else {
+        colorButton.textContent = "Make it colorful!";
+        square.style.backgroundColor = "grey";
+      }
     })
     square.addEventListener("click", function () {
       square.style.backgroundColor = "white";
@@ -57,4 +65,5 @@ function gridBackground() {
   })
 }
 
+createChildDivs(8); // Create default grid
 
