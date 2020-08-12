@@ -28,6 +28,7 @@ function createChildDivs(gridSize) {
 // Create grid of square divs within div container using CSS Grid
 function newGrid(gridSize) {
   // Set parent style as grid
+  removeAllChildNodes(squareDivContainer);
   squareDivContainer.style.grid = `repeat(${gridSize}, 1fr) / repeat(${gridSize}, 1fr)`;
   // Assign column and row numbers to each of the squares
   for (let column = 1; column <= gridSize; column++) {
@@ -35,7 +36,7 @@ function newGrid(gridSize) {
       // Stylize each of the squares
       let sqNmbr = row + gridSize * (column - 1);
       squareDiv[sqNmbr].style.cssText = `grid-column: ${column}; 
-        grid-row: ${row}; border: 1px solid black; background-color: white`;
+        grid-row: ${row}; border: 1px solid #E5EAF5; background-color: white`;
       squareDiv[sqNmbr].setAttribute("class", "square-div");
       // Append the squares to the parent div container
       squareDivContainer.appendChild(squareDiv[sqNmbr]);
@@ -63,6 +64,12 @@ function hoverColor() {
       square.style.backgroundColor = "white";
     })
   })
+}
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+  }
 }
 
 createChildDivs(8); // Create default grid
