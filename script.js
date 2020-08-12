@@ -13,7 +13,10 @@ colorButton.addEventListener("click", hoverColor);
 
 // Function to get new grid size from user
 function userInput() {
-  let gridSize = prompt("How many squares per side should your grid have?");
+  let gridSize = 1;
+  while (gridSize < 2 || gridSize > 50) {
+    gridSize = prompt("How many squares per side would you like your grid to have? Maximum of 50.");
+  }
   createChildDivs(gridSize);
 }
 
